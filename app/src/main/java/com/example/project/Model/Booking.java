@@ -1,68 +1,68 @@
-package com.example.carrentalapp.Model;
+package com.example.project.Model;
 
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Entity(primaryKeys = {"bookingID","customerID"})
 public class Booking implements Serializable {
 
 
-    private int bookingID;
+    private String bookingID;
+
+    public String pickupTime;
+    public String returnTime;
+
+    public void setPickupTime(String pickupTime) {
+        this.pickupTime = pickupTime;
+    }
+
+    public void setReturnTime(String returnTime) {
+        this.returnTime = returnTime;
+    }
 
     private Calendar pickupDate;
     private Calendar returnDate;
 
-    private String bookingStatus;
+    private String bookingStatus="waiting for approval";
 
-    @ForeignKey(entity = Customer.class,
-                parentColumns = "parentClassColumn",
-                childColumns = "childClassColumn",
-                onDelete = ForeignKey.CASCADE)
-    private int customerID;
+    private String customerID;
 
-    @ForeignKey(entity = Administrator.class,
-                parentColumns = "parentClassColumn",
-                childColumns = "childClassColumn",
-                onDelete = ForeignKey.SET_NULL)
-    private int administratorID;
-
-    @ForeignKey(entity = Billing.class,
-                parentColumns = "parentClassColumn",
-                childColumns = "childClassColumn",
-                onDelete = ForeignKey.CASCADE)
-    private int billingID;
-
-
-    @ForeignKey(entity = Vehicle.class,
-            parentColumns = "parentClassColumn",
-            childColumns = "childClassColumn",
-            onDelete = ForeignKey.CASCADE)
     private int vehicleID;
 
-    @ForeignKey(entity = Insurance.class,
-            parentColumns = "parentClassColumn",
-            childColumns = "childClassColumn",
-            onDelete = ForeignKey.CASCADE)
-    private String insuranceID;
+    private double totalCost;
 
-    public Booking(int bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, int customerID, int administratorID, int billingID, int vehicleID, String insuranceID) {
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public Booking(String bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, String customerID, int vehicleID) {
         this.bookingID = bookingID;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
         this.bookingStatus = bookingStatus;
         this.customerID = customerID;
-        this.administratorID = administratorID;
-        this.billingID = billingID;
         this.vehicleID = vehicleID;
-        this.insuranceID = insuranceID;
+
     }
+    public Booking() {
+    }
+    public Booking( Calendar pickupDate, Calendar returnDate, String bookingStatus, String customerID, int vehicleID) {
+        this.pickupDate = pickupDate;
+        this.returnDate = returnDate;
+        this.bookingStatus = bookingStatus;
+        this.customerID = customerID;
+        this.vehicleID = vehicleID;
+
+    }
+
 
     public String toString(){
         SimpleDateFormat format = new SimpleDateFormat("MMMM, d yyyy hh:mm a");
@@ -71,9 +71,7 @@ public class Booking implements Serializable {
                 "Pickup Date:       " + format.format(pickupDate.getTime()) + "\n" +
                 "Return Date:       " + format.format(returnDate.getTime()) + "\n" +
                 "Status:            " + bookingStatus + "\n" +
-                "CustomerID:        " + customerID + "\n" +
-                "AdministratorID:   " + administratorID + "\n" +
-                "BillingID:         " + billingID + "\n";
+                "CustomerID:        " + customerID + "\n";
     }
 
     public int getVehicleID() {
@@ -84,11 +82,11 @@ public class Booking implements Serializable {
         this.vehicleID = vehicleID;
     }
 
-    public int getBookingID() {
+    public String getBookingID() {
         return bookingID;
     }
 
-    public void setBookingID(int bookingID) {
+    public void setBookingID(String bookingID) {
         this.bookingID = bookingID;
     }
 
@@ -116,37 +114,14 @@ public class Booking implements Serializable {
         this.bookingStatus = bookingStatus;
     }
 
-    public int getCustomerID() {
+    public String getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(String customerID) {
         this.customerID = customerID;
     }
 
-    public int getAdministratorID() {
-        return administratorID;
-    }
-
-    public void setAdministratorID(int administratorID) {
-        this.administratorID = administratorID;
-    }
-
-    public int getBillingID() {
-        return billingID;
-    }
-
-    public void setBillingID(int billingID) {
-        this.billingID = billingID;
-    }
-
-    public String getInsuranceID() {
-        return insuranceID;
-    }
-
-    public void setInsuranceID(String insuranceID) {
-        this.insuranceID = insuranceID;
-    }
 
     public String getPickupTime(){
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a MMMM, d yyyy");

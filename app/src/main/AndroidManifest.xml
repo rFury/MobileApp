@@ -13,13 +13,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".RegisterActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="false" >
-        </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name=".Loader"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,11 +22,29 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Activities.ViewBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.BookingSummaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.BookingCarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name" />
+        <activity android:name=".Activities.VehicleInfoActivity" />
 
-        </activity>
     </application>
 
 </manifest>

@@ -2,6 +2,8 @@ package com.example.project;
 
 import static android.content.ContentValues.TAG;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,12 +19,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.project.Model.User_Details;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -31,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     // Declare all the variables
     private EditText firstName, lastName, email, license, phoneNumber, password, confirmPassword;
     private Button register;
-    private TextView aMember, registration, rentACar, login;
+    private TextView login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +58,17 @@ public class RegisterActivity extends AppCompatActivity {
         // Initialize Button
         register = findViewById(R.id.register);
 
-        // Initialize TextView fields
-        aMember = findViewById(R.id.a_member);
-        registration = findViewById(R.id.registration);
-        rentACar = findViewById(R.id.rent_A_Car);
         login = findViewById(R.id.login);
 
-        // Set OnClickListener for the register button
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(i);
+            }
+        });
+
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,11 +82,33 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "createUserWithEmail:success");
+                                Toast.makeText(RegisterActivity.this, "Authentication success.",Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = Auth.getCurrentUser();
+                                FirebaseDatabase database = FirebaseDatabase.getInstance("https://mobileproject-53e34-default-rtdb.europe-west1.firebasedatabase.app");
+                                DatabaseReference myRef = database.getReference("User_Details");
+                                Integer phoneText = Integer.parseInt(phoneNumber.getText().toString());
+                                String lastname = lastName.getText().toString();
+                                String firstname = firstName.getText().toString();
+                                Integer d_license = Integer.parseInt(license.getText().toString());
+                                String ID = user.getUid();
+                                User_Details x = new User_Details(ID,firstname,lastname,phoneText,d_license);
+
+                                myRef.child(ID).setValue(x).addOnCompleteListener(scndtask -> {
+                                    if (scndtask.isSuccessful()) {
+                                        Toast.makeText(RegisterActivity.this, "User details saved successfully!", Toast.LENGTH_SHORT).show();
+                                        Intent i = new Intent(RegisterActivity.this,Loader.class);
+                                        startActivity(i);
+                                        finish();
+                                    } else {
+                                        Log.e(TAG, "Failed to save user details: ", scndtask.getException());
+                                    }
+                                });
+
+
+
                             } else {
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -85,7 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        // Handle window insets for edge-to-edge display
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -93,7 +123,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    // Method to validate all fields
     private boolean validateFields() {
         if (firstName.getText().toString().isEmpty()) {
             firstName.setError("First Name is required");

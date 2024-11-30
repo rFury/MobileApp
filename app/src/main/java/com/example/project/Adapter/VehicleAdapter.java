@@ -1,4 +1,4 @@
-package com.example.carrentalapp.Adapter;
+package com.example.project.Adapter;
 
 import android.content.Context;
 
@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.carrentalapp.Model.Vehicle;
-import com.example.carrentalapp.R;
+
+import com.example.project.Model.Vehicle;
+import com.example.project.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleH
         Vehicle v = vehicle.get(i);
         vehicleHolder.vehicle.setText(v.getYear() + " " + v.getManufacturer() + " " + v.getModel());
         vehicleHolder.price.setText("$"+v.getPrice()+"/day");
+        vehicleHolder.category.setText(v.getCategory());
         Picasso.get().load(v.getVehicleImageURL()).into(vehicleHolder.imageView);
     }
 
@@ -57,6 +60,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleH
         ImageView imageView;
         ConstraintLayout card;
         onVehicleListener onVehicleListener;
+        Button category;
         public VehicleHolder(@NonNull View itemView, onVehicleListener onVehicleListener) {
             super(itemView);
             vehicle = itemView.findViewById(R.id.vehicle);
@@ -64,6 +68,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleH
             card = itemView.findViewById(R.id.card);
             price = itemView.findViewById(R.id.price);
             imageView = itemView.findViewById(R.id.vehicleImage);
+            category = itemView.findViewById(R.id.book);
 
             this.onVehicleListener = onVehicleListener;
             itemView.setOnClickListener(this);

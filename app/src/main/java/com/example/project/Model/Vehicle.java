@@ -1,14 +1,10 @@
-package com.example.carrentalapp.Model;
+package com.example.project.Model;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity
 public class Vehicle implements Serializable {
 
-    @PrimaryKey
     private int vehicleID;
 
     private double price;
@@ -20,6 +16,9 @@ public class Vehicle implements Serializable {
     private String category;
     private boolean availability;
     private String vehicleImageURL;
+
+    public Vehicle() {
+    }
 
     public Vehicle(int vehicleID, double price, int seats, int mileage, String manufacturer, String model, int year, String category, boolean availability, String vehicleImageURL) {
         this.vehicleID = vehicleID;

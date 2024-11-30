@@ -11,5 +11,10 @@
     <color name="colorSecondary">#03A9F4</color>
     <color name="colorAccent">#03A9F4</color>
     <color name="statusBarColor">#102027</color>
+    <color name="waiting_for_approval">#FF6D00</color>
+    <color name="accepted">#4CAF50</color>
+    <color name="overdue">#FF2222</color>
+    <color name="light_gray">#6A6666</color>
+
 
 </resources>
