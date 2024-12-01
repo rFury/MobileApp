@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project.Activities.ViewBookingActivity;
 import com.example.project.Adapter.BookingAdapter;
 import com.example.project.Model.Booking;
-import com.example.project.Model.Vehicle;
 import com.example.project.R;
 import com.example.project.databinding.FragmentDashboardBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -113,7 +111,6 @@ public class DashboardFragment extends Fragment implements BookingAdapter.onBook
         Intent viewBooking = new Intent(getContext(), ViewBookingActivity.class);
         viewBooking.putExtra("BOOKING",bookings.get(position));
         startActivity(viewBooking);
-        getActivity().finish();
     }
 
     private void toast(String txt){

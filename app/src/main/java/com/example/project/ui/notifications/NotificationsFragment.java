@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.project.Activities.Maps;
 import com.example.project.LoginActivity;
 import com.example.project.Model.User_Details;
 import com.example.project.Model.Vehicle;
@@ -32,12 +34,13 @@ public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
 
-    private TextView fullNameTextView;
+    private TextView fullNameTextView,username;
     private TextView emailTextView;
     private TextView phoneNumberTextView;
     private TextView driversLicenseTextView;
 
     private Button logOut;
+    private ImageButton posi;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class NotificationsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User_Details user = dataSnapshot.getValue(User_Details.class);
                 fullNameTextView.setText(user.getF_name()+" "+user.getL_name());
+                username.setText(user.getF_name()+" "+user.getL_name());
                 phoneNumberTextView.setText("+216:"+String.valueOf(user.getT_number()));
                 driversLicenseTextView.setText(String.valueOf(user.getD_license()));
 
@@ -73,10 +77,12 @@ public class NotificationsFragment extends Fragment {
             }
         });
         fullNameTextView = view.findViewById(R.id.view_full_name);
+        username = view.findViewById(R.id.username);
         emailTextView = view.findViewById(R.id.view_email);
         phoneNumberTextView = view.findViewById(R.id.view_phone_number);
         driversLicenseTextView = view.findViewById(R.id.view_drivers_license);
         logOut = view.findViewById(R.id.btn_logout);
+        posi = view.findViewById(R.id.btn_position);
         emailTextView.setText(x.getEmail());
 
         logOut.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +92,14 @@ public class NotificationsFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
+            }
+        });
+
+        posi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), Maps.class);
+                startActivity(intent);
             }
         });
     }

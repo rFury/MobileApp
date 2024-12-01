@@ -2,6 +2,8 @@ package com.example.project.Model;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Vehicle implements Serializable {
 
@@ -46,6 +48,18 @@ public class Vehicle implements Serializable {
                 "Availability:  " + availability + "\n";
 
     }
+
+    public List<String> getSim() {
+        List<String> l = new ArrayList<>();
+
+        l.add(String.valueOf(Integer.valueOf((int) price)));
+        l.add(manufacturer.toLowerCase());
+        l.add(model.toLowerCase());
+        l.add(String.valueOf(year));
+        l.add(category.toLowerCase());
+        return l;
+    }
+
 
     public String getObject(){
         String str = "Vehicle v1 = new Vehicle("+vehicleID+","+price+","+seats+","+mileage+",\""+manufacturer+"\",\""+model+"\","+year+",\""+category+"\","+availability+",\""+vehicleImageURL+"\");";
